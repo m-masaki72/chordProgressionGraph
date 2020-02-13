@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" rel="stylesheet">
+    <style type="text/css">
+      #network {
+        width:  400px;
+        height: 400px;
+        border: 1px solid #000;
+      }
+    </style>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+    <script src="Tone.js"></script>
+    <script type="text/javascript" src="sample.js"></script>
+  </head>
+
+  <body>
+    <div id="network"></div>
+    <script type="text/javascript">
+      var nodes = new vis.DataSet([
+        { id: 1, label: 'C' },
+        { id: 11, label: 'C7' },
+        { id: 2, label: 'F' },
+        { id: 3, label: 'G' },
+        { id: 4, label: 'A' },
+        { id: 5, label: 'B' },
+        { id: 6, label: 'D' },
+        { id: 7, label: 'E' },
+        { id: 8, label: 'A' },
+      ]);
+      var edges = new vis.DataSet([
+        {from: 1, to: 2, arrows: 'to'},
+        {from: 2, to: 3, arrows: 'to'},
+        {from: 3, to: 1, arrows: 'to'},
+        { from: 8, to: 1, arrows: 'to' },
+        { from: 4, to: 2, arrows: 'to' },
+        { from: 5, to: 4, arrows: 'to' },
+        { from: 3, to: 5, arrows: 'to' },
+        { from: 1, to: 6, arrows: 'to' },
+        { from: 6, to: 2, arrows: 'to' },
+      ]);
+      var container = document.getElementById('network');
+      var data = {
+        nodes: nodes,
+        edges: edges
+      };
+      var options = {
+      };
+      var network = new vis.Network(container, data, options);
+
+      network.on('click', function (properties) {
+        var ids = properties.nodes;
+        var clickedNodes = nodes.get(ids);
+        console.log('clicked nodes:', clickedNodes);
+        if (clickedNodes.length > 0) {
+          play(clickedNodes[0].label);
+        }
+      });
+    </script>
+  </body>
+</html>
